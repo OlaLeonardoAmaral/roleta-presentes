@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roleta de Presentes</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Adicione no <head> do seu HTML -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <style>
+        /* Configurações da roleta */
+        #roleta {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            transform-origin: center;
+            background: conic-gradient(
+                #ffcc00 0deg 45deg,
+                #ff5733 45deg 90deg,
+                #33ff57 90deg 135deg,
+                #3357ff 135deg 180deg,
+                #ff33a8 180deg 225deg,
+                #57ffdd 225deg 270deg,
+                #ff9333 270deg 315deg,
+                #b833ff 315deg 360deg
+            );
+        }
+
+        /* Posição fixa do ponteiro */
+        .ponteiro {
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-bottom: 20px solid white;
+            z-index: 10;
+        }
+
+        /* Texto no centro de cada setor */
+        .setor-texto {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transform-origin: center center;
+        }
+
+        /* Girando os textos para centralizá-los corretamente */
+.setor-texto:nth-child(1) { transform: rotate(22.5deg) translateY(-95px) rotate(-90.5deg); }
+.setor-texto:nth-child(2) { transform: rotate(67.5deg) translateY(-95px) rotate(-90.5deg); }
+.setor-texto:nth-child(3) { transform: rotate(112.5deg) translateY(-95px) rotate(-90.5deg); }
+.setor-texto:nth-child(4) { transform: rotate(157.5deg) translateY(-95px) rotate(-90.5deg); }
+.setor-texto:nth-child(5) { transform: rotate(202.5deg) translateY(-95px) rotate(-90.5deg); }
+.setor-texto:nth-child(6) { transform: rotate(247.5deg) translateY(-95px) rotate(-90.5deg); }
+.setor-texto:nth-child(7) { transform: rotate(292.5deg) translateY(-95px) rotate(-90.5deg); }
+.setor-texto:nth-child(8) { transform: rotate(337.5deg) translateY(-95px) rotate(-90.5deg); }
+
+
+@keyframes explosion {
+    0% { 
+        transform: scale(0); 
+        opacity: 0; 
+    }
+    70% { 
+        transform: scale(1.2); 
+        opacity: 1; 
+    }
+    100% { 
+        transform: scale(1); 
+        opacity: 1; 
+    }
+}
+
+.animate-explosion {
+    animation: explosion 0.5s ease-out;
+}
+
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+#presente {
+    animation: pulse 0.5s ease-in-out;
+}
+
+    </style>
+</head>
+<body class="bg-gradient-to-br from-blue-500 to-purple-600 min-h-screen flex flex-col items-center justify-center text-white font-sans">
+    <h1 class="text-4xl font-bold mb-8 text-center">🎡 Roleta de Presentes 🎁</h1>
+
+    <!-- Container da roleta com ponteiro -->
+    <div class="relative">
+        <!-- Ponteiro fixo -->
+        <div class="ponteiro"></div>
+        
+        
+        <!-- eu quero que a roleta pare de vagar e nao pare extamente no centro do item, a roleta só nao pode parar na linha que separa os presentes, e ela tem que ir parando devagarindo igual uma roleta de verdade -->
+        <!-- Roleta -->
+        <div id="roleta" class="shadow-lg">
+            <!-- Textos na roleta (centralizados por setor) -->
+            <div class="setor-texto">Presnte Top! 🎁</div>
+            <div class="setor-texto">Surpresa! 🎈</div>
+            <div class="setor-texto">Idea Brilhte! 💡</div>
+            <div class="setor-texto">Acertei! 🎯</div>
+            <div class="setor-texto">Magia! ✨</div>
+            <div class="setor-texto">Risada Boa! 😄</div>
+            <div class="setor-texto">Chocolate! 🍫</div>
+            <div class="setor-texto">Arco-Íris! 🌈</div>
+        </div>
+    </div>
+
+    <!-- Botão Girar -->
+    <button id="botao-girar" class="mt-6 bg-purple-600 text-white py-2 px-6 rounded-full text-lg font-bold shadow-md hover:shadow-lg transition-all transform hover:scale-105">
+        Girar 🎡
+    </button>
+
+    <!-- eu quero quando a roletar parar no item, eu quero que esse item seja exibido como um presente na tela e que tenha uma explocao e só depois mostra as informacoe do produto -->
+    <!-- Resultado --> 
+    <div id="presente" class="mt-8 p-6 bg-white text-black rounded-lg shadow-lg text-center hidden">
+        <h2 id="nome" class="text-2xl font-bold mb-2"></h2>
+        <p id="descricao" class="text-lg mb-4"></p>
+        <img id="imagem" src="" alt="Imagem do presente" class="w-32 h-32 mx-auto mb-4 rounded-lg">
+        <a id="link" href="#" target="_blank" class="text-blue-500 font-bold hover:underline">Comprar Presente</a>
+    </div>
+</body>
+<script src="script.js"></script>
+</html>
